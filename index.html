@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>test</title>
+  <style>
+  </style>
+</head>
+
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  <link rel="stylesheet"
+    href="https://unpkg.com/element-ui/lib/theme-chalk/index.css" />
+  <!-- 引入组件库 -->
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <div id="app">
+    <div id="fib">
+      <div class="time">执行用时:{{time.fibTime??0}}ms</div>
+      <div class="fib-res">
+        执行结果:{{res.fibRes}}
+      </div>
+      <el-button @click="fib">fib</el-button>
+    </div>
+  </div>
+  <script type="module">
+    import lagRadar from "@gaearon/lag-radar";
+    const destroy = lagRadar({
+      frames: 50,    // number of frames to draw, more = worse performance
+      speed: 0.0017, // how fast the sweep moves (rads per ms)
+      size: 300,     // outer frame px
+      inset: 3,      // circle inset px
+      parent: document.body, // DOM node to attach to
+    });
+  </script>
+  <script src="./test/index.ts" type="module"></script>
+  <script>
+  </script>
+</body>
+
+</html>
