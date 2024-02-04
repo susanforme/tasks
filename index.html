@@ -51,13 +51,15 @@
   </div>
   <script type="module">
     import lagRadar from "@gaearon/lag-radar";
-    const destroy = lagRadar({
-      frames: 50,    // number of frames to draw, more = worse performance
-      speed: 0.0017, // how fast the sweep moves (rads per ms)
-      size: 300,     // outer frame px
-      inset: 3,      // circle inset px
-      parent: document.body, // DOM node to attach to
-    });
+    const destroy = Array(4).fill(0).forEach(() => {
+      lagRadar({
+        frames: 50,    // number of frames to draw, more = worse performance
+        speed: 0.0017, // how fast the sweep moves (rads per ms)
+        size: 300,     // outer frame px
+        inset: 3,      // circle inset px
+        parent: document.body, // DOM node to attach to
+      })
+    }) 
   </script>
   <script src="./test/index.ts" type="module"></script>
   <script>

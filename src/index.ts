@@ -6,21 +6,28 @@ export default class BackgroundTask {
     const promiseTasks = []
     for (const task of config.tasks) {
       try {
-        const DataProcessor = wrap<Function>(
-          new Worker(task.url, {
-            type: 'module',
-          })
+        const worker = new Worker(task.url, {
+          type: 'module',
+        })
+        const workerProcessor = wrap<Function>(worker)
+        promiseTasks.push(
+          workerProcessor
+            .call(null, task.params)
+            .then((res: any) => {
+              task?.onSuccess?.(res)
+              worker.terminate()
+              return res
+            })
+            .catch((error: any) => {
+              task?.onError?.(error)
+              throw error
+            })
         )
-        promiseTasks.push(DataProcessor.call(task.params))
       } catch (error) {
-        console.log(
-          '%c [ error ]-16',
-          'font-size:13px; background:pink; color:#bf2c9f;',
-          error
-        )
-        // config.onError && config.onError(error)
+        throw error
       }
-      return await Promise.all(promiseTasks)
+      const results = await Promise.all(promiseTasks)
+      return results
     }
   }
   static async wrapper<T extends any>(fn: T) {
@@ -32,6 +39,8 @@ export type BackgroundTaskConfigType = {
   tasks: {
     url: string
     params?: any
+    onSuccess?: (result: any) => void
+    onError?: (error: any) => void
   }[]
   onSuccess?: (result: any) => void
   onError?: (error: any) => void
