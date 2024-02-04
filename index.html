@@ -7,6 +7,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>test</title>
   <style>
+    .fib-father {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .fib {
+      flex: 33%;
+    }
+
+    .fib .random-time {
+      color: red;
+    }
+
+    .fib .time {
+      color: blue;
+    }
+
+    .fib .fib-res {
+      color: green;
+    }
   </style>
 </head>
 
@@ -17,13 +37,17 @@
   <!-- 引入组件库 -->
   <script src="https://unpkg.com/element-ui/lib/index.js"></script>
   <div id="app">
-    <div id="fib">
-      <div class="time">执行用时:{{time.fibTime??0}}ms</div>
-      <div class="fib-res">
-        执行结果:{{res.fibRes}}
+    <div class="fib-father">
+      <div class="fib" v-for="task of fibTasks">
+        <div class="random-time">执行的函数 fib({{task.time}})</div>
+        <div class="time">执行用时:{{task.fibTime??0}}ms</div>
+        <div class="fib-res">
+          执行结果:{{task.fibRes}}
+        </div>
       </div>
-      <el-button @click="fib">fib</el-button>
     </div>
+    <el-button @click="fib">fib</el-button>
+
   </div>
   <script type="module">
     import lagRadar from "@gaearon/lag-radar";

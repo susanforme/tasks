@@ -7,8 +7,8 @@
  */
 import BackgroundTask from '../../src/index'
 
-BackgroundTask.wrapper(async () => {
-  return fibonacci(40)
+BackgroundTask.wrapper(async (params = 40) => {
+  return fibonacci(params)
   function fibonacci(n: number): number {
     if (n <= 1) {
       return 1

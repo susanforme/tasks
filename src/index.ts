@@ -7,11 +7,11 @@ export default class BackgroundTask {
     for (const task of config.tasks) {
       try {
         const DataProcessor = wrap<Function>(
-          new Worker(task, {
+          new Worker(task.url, {
             type: 'module',
           })
         )
-        promiseTasks.push(DataProcessor.call([]))
+        promiseTasks.push(DataProcessor.call(task.params))
       } catch (error) {
         console.log(
           '%c [ error ]-16',
@@ -29,7 +29,10 @@ export default class BackgroundTask {
 }
 
 export type BackgroundTaskConfigType = {
-  tasks: string[]
+  tasks: {
+    url: string
+    params?: any
+  }[]
   onSuccess?: (result: any) => void
   onError?: (error: any) => void
 }
