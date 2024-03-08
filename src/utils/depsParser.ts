@@ -10,7 +10,7 @@
  * @param deps - array of dependencies
  * @returns
  */
-export default function depsParser(deps: string[]) {
+export default function depsParser(deps: string[] = []) {
   if (deps.length === 0) return ''
   return `importScripts(${deps.map(dep => `'${dep}`)})`
 }

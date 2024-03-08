@@ -1,7 +1,7 @@
 /*
  * @Author: zhicheng ran
  * @Date: 2023-03-21 13:55:13
- * @LastEditTime: 2024-02-06 10:55:23
+ * @LastEditTime: 2024-03-08 15:52:31
  * @FilePath: \background_task\test\index.ts
  * @Description:
  */
@@ -13,17 +13,25 @@ import Stopwatch from 'statman-stopwatch'
 
 export class Test {
   static async fib(params: any) {
-    return await BackgroundTask.run({
+    const tasks = new BackgroundTask({
       tasks: [
         {
-          url: new URL(
-            './works/fib.worker.ts',
-            import.meta.url
-          ).href,
-          params,
+          fn: (params: any) => {
+            function fibonacci(n: number): number {
+              if (n <= 1) {
+                return 1
+              }
+              return fibonacci(n - 1) + fibonacci(n - 2)
+            }
+            return fibonacci(params)
+          },
+          params: [params],
+          timeout:3000
         },
       ],
     })
+    const results = await tasks.run()
+    return results
   }
 }
 
